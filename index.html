@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details Task</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    #mainScreen {
+      height: 100vh;
+      width: 100vw;
+      background-image: url(https://i.pinimg.com/originals/9b/1d/e6/9b1de6df13a127d53f0f77a587a33bf0.jpg);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #mainScreen h1 {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 20px 40px;
+      font-size: 6vw;
+      font-weight: bold;
+      border-radius: 12px;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    #formSection {
+      display: none;
+      min-height: 100vh;
+      padding: 5vw 2vw;
+      background-image: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .delete-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    #backBtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+    }
+
+    h2, h3 {
+      color: darkred;
+      text-shadow: 1px 1px 4px black;
+      font-size: 1.8rem;
+    }
+
+    @media (max-width: 600px) {
+      #mainScreen h1 {
+        font-size: 8vw;
+        padding: 15px 25px;
+      }
+
+      table, th, td {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      button, .delete-btn, #backBtn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- First Page -->
+  <div id="mainScreen" onclick="showForm()">
+    <h1>STUDENTS DETAILS</h1>
+  </div>
+
+  <!-- Second Page -->
+  <div id="formSection">
+    <button id="backBtn" onclick="goBack()">← Back</button>
+    <h2>STUDENT DETAILS FORM</h2>
+
+    <table>
+      <tr>
+        <td>Name</td>
+        <td><input type="text" id="name"></td>
+      </tr>
+      <tr>
+        <td>Age</td>
+        <td><input type="number" id="age"></td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td>
+          <input type="radio" name="gender" id="male" value="Male"> Male
+          <input type="radio" name="gender" id="female" value="Female"> Female
+        </td>
+      </tr>
+      <tr>
+        <td>Course</td>
+        <td>
+          <select id="course">
+            <option>JavaScript</option>
+            <option>Python</option>
+            <option>HTML</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input type="email" id="email"></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:center">
+          <button onclick="saveData()">Save</button>
+        </td>
+      </tr>
+    </table>
+
+    <h3>STUDENT LIST</h3>
+    <table id="studentTable">
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function showForm() {
+      document.getElementById("mainScreen").style.display = "none";
+      document.getElementById("formSection").style.display = "block";
+      document.getElementById("backBtn").style.display = "inline-block";
+    }
+
+    function goBack() {
+      document.getElementById("mainScreen").style.display = "flex";
+      document.getElementById("formSection").style.display = "none";
+      document.getElementById("backBtn").style.display = "none";
+    }
+
+    function saveData() {
+      const name = document.getElementById("name").value.trim();
+      const age = document.getElementById("age").value.trim();
+      const course = document.getElementById("course").value;
+      const email = document.getElementById("email").value.trim();
+      const gender = document.getElementById("male").checked ? "Male" :
+                     document.getElementById("female").checked ? "Female" : "";
+
+      if (name === "" || age === "" || gender === "" || email === "") {
+        alert("Please fill all fields");
+        return;
+      }
+
+      const table = document.getElementById("studentTable");
+      const row = table.insertRow(-1);
+      row.insertCell(0).innerText = name;
+      row.insertCell(1).innerText = age;
+      row.insertCell(2).innerText = course;
+      row.insertCell(3).innerText = gender;
+      row.insertCell(4).innerText = email;
+
+      const actionCell = row.insertCell(5);
+      const btn = document.createElement("button");
+      btn.innerText = "Delete";
+      btn.className = "delete-btn";
+      btn.onclick = function () {
+        table.deleteRow(row.rowIndex);
+      };
+      actionCell.appendChild(btn);
+
+      // Clear input
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("male").checked = false;
+      document.getElementById("female").checked = false;
+      document.getElementById("email").value = "";
+    }
+  </script>
+</body>
+</html>
